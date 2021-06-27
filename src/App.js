@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
 
+
 import './App.css';
 import "./css/tailwind.output.css";
 import './font/font.css';
@@ -15,6 +16,7 @@ import Home from './pages/Home';
 import Tournament from './pages/Tournament';
 import { ToastContainer, toast } from 'react-toastify';
 
+
 localStorage.setItem('reward', 0);
 
 function App() {
@@ -23,6 +25,7 @@ function App() {
     localStorage.setItem('reward', 0);
   }, [location]);
 
+  
   return (
     <React.Fragment>
       <Switch>
