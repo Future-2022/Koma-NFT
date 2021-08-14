@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import $ from 'jquery';
 import './index.css';
 import Web3 from 'web3';
 import {useHistory} from 'react-router-dom';
 import detectEthereumProvider from '@metamask/detect-provider';
 import { controlPot } from '../../contractConstant';
 import jsonData from '../../contractConstant.json';
-import { useCountdown } from './useCountdown';
 import DateTimeDisplay from './DateTimeDisplay'
 import Countdown from 'react-countdown';
 import BigNumber from "bignumber.js";
 import moment from 'moment';
 import axios from "axios";
-import { getDefaultProvider, Contract } from "ethers";
 // import { FetchWrapper } from "use-nft"
 const Home = (props) => {
     const history = useHistory();
