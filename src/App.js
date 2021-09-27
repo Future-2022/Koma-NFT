@@ -10,6 +10,7 @@ import './css/fontawesome-free-6.0.0-beta3-web/css/solid.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-notifications/lib/notifications.css';
 
+
 import Home from './pages/Home';
 import Tournament from './pages/Tournament';
 import { ToastContainer, toast } from 'react-toastify';
