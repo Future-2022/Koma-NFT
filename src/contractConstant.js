@@ -320,5 +320,5 @@ export const controlPot = {
       "type": "function"
     }
   ],
-  contractAddress: "0xBde2ea6e7E1ca16507cc4345ED4e6Cc961888f51"  
+  contractAddress: "0xeBe24723b38a23689d60784563525548ac6f2999"  
 }

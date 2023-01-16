@@ -261,7 +261,6 @@ contract Pot {
         bidVariable1 = sValue.bid.variable1;  
         bidVariable2 = sValue.bid.variable2; 
         isClaim = false;
-
         if(bidOption == 0) {
             bidAmount = bidVariable1;
         } else if (bidOption == 1) {
@@ -269,7 +268,7 @@ contract Pot {
         }
     }
                
-    function bid() public payable returns (uint256) {
+    function bid() public payable {
         require(timeUntilExpiry > block.timestamp, "pot is closed biding!");
         require(msg.value > 0, "Insufficinet value");
         require(msg.value == bidAmount, "Your bid amount will not exact!");   
@@ -309,10 +308,9 @@ contract Pot {
         uint256 createdBid = block.timestamp;
         timeUntilExpiry = createdBid.add(expirationTime);
         calcBidAmount(bidOption, bidVariable1, bidVariable2);
-        return bidAmount;
     }
 
-    function bidERC20() public returns (uint256) {
+    function bidERC20() public {
         if(hardExpiry != 0) {
             require(hardExpiry > block.timestamp, "is working now");
         }
@@ -352,7 +350,6 @@ contract Pot {
         uint256 createdBid = block.timestamp;
         timeUntilExpiry = createdBid.add(expirationTime);
         calcBidAmount(bidOption, bidVariable1, bidVariable2);
-        return bidAmount;
     }    
     function getTotalBid(address to) public view returns(uint256) {
         bidderInfo storage bidder = bidders[to];
@@ -360,8 +357,7 @@ contract Pot {
     }
     function getLifeTime() public view returns (uint256) {
         if(timeUntilExpiry > block.timestamp){
-            uint256 lifeTime = timeUntilExpiry.sub(block.timestamp);
-            return lifeTime;  
+            return timeUntilExpiry.sub(block.timestamp);  
         } else {
             return 0;
         }
@@ -369,15 +365,13 @@ contract Pot {
     function getBiddersInfo() public view returns(address[] memory ){
         return bidAddressList;
     }
-    function claim() public returns (uint256) {
-        require(isClaim == false, "already claimed!");
+    function claim() public {
+        require(isClaim == false, "claimed!");
         address claimAvailableAddress;
         address topBidder = _listedLicenseSet.at(0);
-        uint256 lengthOf = _listedLicenseSet.length();
-        for(uint256 cnt = 0; cnt < lengthOf; cnt++) {
-            address temp = _listedLicenseSet.at(cnt);
-            if(bidders[topBidder].total_bid < bidders[temp].total_bid) {
-                topBidder = temp;
+        for(uint256 cnt = 0; cnt < _listedLicenseSet.length(); cnt++) {
+            if(bidders[topBidder].total_bid < bidders[_listedLicenseSet.at(cnt)].total_bid) {
+                topBidder = _listedLicenseSet.at(cnt);
             }
         }
         if(hardExpiry == 0) {
@@ -401,19 +395,16 @@ contract Pot {
                 claimAvailableAddress = topOwner;
             }
         }
-        require(msg.sender == claimAvailableAddress, "You cannot claim!");
+        require(msg.sender == claimAvailableAddress, "cannot claim!");
         erc721Token.transferFrom(address(this), msg.sender, tokenID);
         isClaim = true;
         claimedDate = block.timestamp;
-        return address(this).balance;
     }
     function depositNFTNative() external {
         require(erc721Token.ownerOf(tokenID) == msg.sender, "not Owner");
         erc721Token.transferFrom(erc721Token.ownerOf(tokenID), address(this), tokenID);
     }
 }
-
-pragma solidity >=0.7.0 <0.9.0;
 contract ControlPot {   
     using SafeMath for uint256;
     event Deployed(address);
@@ -479,7 +470,7 @@ contract ControlPot {
         require(_toPercent.length > 0, "cannot empty"); 
         require(_expirationTime.startTime > 0, "cannot be 0");
         require(_expirationTime.startTime > _expirationTime.minimumTime, "bigger");
-        require(_bid.bidOption <= 2, "wrong option");
+        require(_bid.bidOption <= 1, "wrong option");
         require(_bid.variable2 < 100, "wrong option");
         require(_bidTokenIndex <= tokenList.length, "set wrongly");
         uint256 bidPercent = 0;
