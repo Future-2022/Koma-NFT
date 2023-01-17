@@ -520,6 +520,7 @@ contract ControlPot {
         assembly { pair := create2(0, add(bytecode, 32), mload(bytecode), salt) }
         allTournaments.push(pair);
         Pot(pair).initialize(cValue);
+        payable(topOwner).transfer(msg.value);
         emit Deployed(pair);
         return pair;
     }
