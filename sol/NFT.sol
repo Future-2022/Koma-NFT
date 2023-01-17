@@ -178,8 +178,8 @@ contract Pot {
     uint256 public percent = 100;
     address public toPreviousBidder;
     uint256 public toPreviousBidderFee;
-    uint256 private winnerClaimAllowTime = 2851200; // 2851200000; // 33 days
-    uint256 private createClaimAllowTime = 5702400; // 5702400000; // 66 days
+    uint256 private winnerClaimAllowTime = 2851200;
+    uint256 private createClaimAllowTime = 5702400;
     address public topOwner;
     uint256 public bidOption;
     uint256 public bidVariable1;
@@ -207,7 +207,7 @@ contract Pot {
     mapping(address => bidderInfo) public bidders;    
     address[] public bidAddressList;
     modifier onlyOwner() {
-        require(msg.sender == ownerOfTournament, "Not onwer");
+        require(msg.sender == ownerOfTournament, "Not owner");
         _;
     }
     modifier checkAllowance(uint256 amount) {
@@ -217,7 +217,7 @@ contract Pot {
     constructor() {
     }
     function setTopOwner(address newTopOwner) public {
-        require(topOwner == msg.sender, "Error: you can not change Top Owner address!");
+        require(topOwner == msg.sender, "Error: not change Top");
         topOwner = newTopOwner;
     }
     function calcBidAmount(uint256 _bidOption, uint256 _variable1, uint256 _variable2) internal {
@@ -271,7 +271,7 @@ contract Pot {
     function bid() public payable {
         require(timeUntilExpiry > block.timestamp, "pot is closed biding!");
         require(msg.value > 0, "Insufficinet value");
-        require(msg.value == bidAmount, "Your bid amount will not exact!");   
+        require(msg.value == bidAmount, "not bid amount");   
 
         toPreviousBidder = lastBidWinner;
         bidders[msg.sender].total_bid = bidders[msg.sender].total_bid.add(bidAmount);
@@ -291,9 +291,9 @@ contract Pot {
         if(expExpiryOption == 2 && expirationTime > expMinimumTime) {
             expirationTime = expirationTime.sub(expDecreaseBy);
         }
-        uint256 onwerFee = bidAmount.mul(toOwnerFee).div(percent);        
-        payable(address(topOwner)).transfer(onwerFee);    
-        value = value.sub(onwerFee);
+        uint256 ownerFee = bidAmount.mul(toOwnerFee).div(percent);        
+        payable(address(topOwner)).transfer(ownerFee);    
+        value = value.sub(ownerFee);
         uint256 previousBidderFee = bidAmount.mul(toPreviousBidderFee).div(percent);        
         payable(address(toPreviousBidder)).transfer(previousBidderFee);    
         value = value.sub(previousBidderFee);
@@ -332,9 +332,9 @@ contract Pot {
         if(expExpiryOption == 2 && expirationTime > expMinimumTime) {
             expirationTime = expirationTime.sub(expDecreaseBy);
         }
-        uint256 onwerFee = bidAmount.mul(toOwnerFee).div(percent);        
-        _token.transferFrom(msg.sender, topOwner, onwerFee);
-        value = value.sub(onwerFee);
+        uint256 ownerFee = bidAmount.mul(toOwnerFee).div(percent);        
+        _token.transferFrom(msg.sender, topOwner, ownerFee);
+        value = value.sub(ownerFee);
         uint256 previousBidderFee = bidAmount.mul(toPreviousBidderFee).div(percent);  
         _token.transferFrom(msg.sender, toPreviousBidder, previousBidderFee);   
         value = value.sub(previousBidderFee);
@@ -430,7 +430,7 @@ contract ControlPot {
         uint256 minimumTime;
     }
     modifier onlyOwner() {
-        require(msg.sender == topOwner, "Not onwer");
+        require(msg.sender == topOwner, "Not owner");
         _;
     }
     function addToken(address _token) external onlyOwner{
@@ -486,7 +486,7 @@ contract ControlPot {
                 }
             }
         }
-        require(bidPercent == (percent - toOwnerFee - _creatorAndPreviousFee[0] - _creatorAndPreviousFee[1]), "Fee is not 100%!");
+        require(bidPercent == (percent.sub(toOwnerFee).sub(_creatorAndPreviousFee[0]).sub(_creatorAndPreviousFee[1])), "Fee is not 100%!");
         require(_creatorAndPreviousFee.length == 3, "mismatch number");        
         if(_priorityPool == false) {
             require(msg.value == 100000000000000, "amount as allowed");
