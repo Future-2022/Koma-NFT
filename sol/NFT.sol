@@ -305,8 +305,7 @@ contract Pot {
             payable(address(bidInfo[i].toAddress)).transfer(bidFee);
             value = value.sub(bidFee);
         }
-        uint256 createdBid = block.timestamp;
-        timeUntilExpiry = createdBid.add(expirationTime);
+        timeUntilExpiry = block.timestamp.add(expirationTime);
         calcBidAmount(bidOption, bidVariable1, bidVariable2);
     }
 
@@ -448,7 +447,6 @@ contract ControlPot {
     }
     function removeToken(uint256 _index) external onlyOwner{
         if (_index >= tokenList.length) revert();
-
         for (uint i = _index; i<tokenList.length-1; i++){
             tokenList[i] = tokenList[i+1];
         }
@@ -516,7 +514,7 @@ contract ControlPot {
         cValue.priorityPool = _priorityPool;
         cValue.toPreviousFee = _creatorAndPreviousFee[0] ;
         cValue.potControlAddress = address(this);
-        bytes32 salt = keccak256(abi.encodePacked(tokenList[_bidTokenIndex], _bid.variable1, _toAddress, _toPercent, cValue.expiryTime.startTime, cValue.expiryTime.decreaseBy, cValue.expiryTime.minimumTime, _priorityPool, _creatorAndPreviousFee[0]));
+        bytes32 salt = keccak256(abi.encodePacked(tokenList[_bidTokenIndex], _bid.variable1, cValue.expiryTime.startTime, cValue.expiryTime.decreaseBy, cValue.expiryTime.minimumTime, _priorityPool, _creatorAndPreviousFee[0]));
         assembly { pair := create2(0, add(bytecode, 32), mload(bytecode), salt) }
         allTournaments.push(pair);
         Pot(pair).initialize(cValue);
