@@ -1,17 +1,11 @@
 
 import React, { useState, useEffect, useHistory } from 'react';
 import Web3 from 'web3';
-import { FaAlignJustify, FaHome, FaTractor, FaBabyCarriage, FaSteam, FaOutdent,
-    FaShareSquare, FaTwitter, FaArrowRight, FaClosedCaptioning, FaTimes, FaQuestion, FaQuestionCircle} from 'react-icons/fa';
-import MetaMask from '../../img/quotation/metamask.svg';
-import Bnbwallet from '../../img/quotation/bnb-busd.svg';
-import Trustwallet from '../../img/quotation/TWT.png';
+import { FaTimes, FaQuestion, FaQuestionCircle} from 'react-icons/fa';
+
 import './index.css';
 import Modal from 'react-modal';
-import { ethers } from "ethers";
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {apiLogin} from '../../services/main';
 import { TOKEN_ADDRESS, TOKEN_ABI, RPC_URL } from '../../services/Types';
 
 const customStyles = {
