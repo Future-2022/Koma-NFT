@@ -1,6 +1,5 @@
 
 import React, { useState, useEffect, useHistory } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
 const Footer = () => {

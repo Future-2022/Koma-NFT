@@ -30,12 +30,6 @@ const Header = () => {
         else
             setOpen(false)
     }
-    let getBNBBalance= async(publicKey) =>{
-        let bnbBal= await web3.eth.getBalance(publicKey);
-        var val= bnbBal/Math.pow(10, 18);
-        localStorage.setItem('ethBalance', val);
-        // return val;
-    }
 
     useEffect(() => {
         setLogin(Math.random()); 
