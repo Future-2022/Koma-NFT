@@ -24,10 +24,6 @@ const Header = () => {
     const web3 = new Web3(RPC_URL); 
     let contract =  new web3.eth.Contract(TOKEN_ABI, BNB_TOKEN_ADDRESS);
 
-    
-
-    //const tickers = useCryptoTickers(["btc", "eth"]);
-
     const openWalletSelect = () => {
         if(open == false)
             setOpen(true)
@@ -43,10 +39,6 @@ const Header = () => {
 
     useEffect(() => {
         setLogin(Math.random()); 
-        // const mnemonic = localStorage.getItem('pharse');
-        // let publicKey = ethers.Wallet.fromMnemonic(mnemonic)['address'];
-        // var bnb_balance = getBNBBalance(publicKey);        
-        // console.log(bnb_balance);
     }, [open]);
 
     useEffect(() => {
