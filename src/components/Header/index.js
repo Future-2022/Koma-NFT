@@ -1,16 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import WalletSelect from '../../components/WalletSelect';
-import Notification from '../../components/Notification';
 import 'react-toastify/dist/ReactToastify.css';
 import {useHistory} from 'react-router-dom';
 import $ from 'jquery';
 import { BNB_TOKEN_ADDRESS, TOKEN_ADDRESS, TOKEN_ABI, RPC_URL } from '../../services/Types';
-import { ethers } from "ethers";
 import Web3 from 'web3';
-import OldSaitama from '../../img/oldSaitama.png';
-import NewSaitama from '../../img/newSaitama.png';
 import Logo2 from '../../img/logo2.png';
 
 const Header = () => {
